@@ -152,7 +152,12 @@ class System(object):
                             if not modname.startswith(System.APP+"_lib"):
                                 continue
 
-                            instance = obj()
+                            try:
+                                instance = obj()
+                            except:
+                                print("Error in lib " + str(obj))
+                                continue
+
                             if isinstance(instance, CodeTemplate):
                                 self.__code_templates[instance.type] = instance
                             if isinstance(instance, Port):
@@ -168,12 +173,13 @@ class System(object):
             # Load XML files in user space
             self.__load_xml(System.get_user_dir() + "/extensions")
 
+            # Load ports in the blocks
             for key in self.__blocks:
                 try:
                     block = self.__blocks[key]
                     BlockControl.load_ports(block, self.__ports)
                 except:
-                    print("Error in loading plugin " + key)
+                    print("Loading error port in plugin " + key)
 
         # ----------------------------------------------------------------------
         def __load_plugins(self):
@@ -200,6 +206,7 @@ class System(object):
                             try:
                                 instance = obj()
                             except:
+                                print("Error in plugin " + str(obj))
                                 continue
 
                             if isinstance(instance, Plugin):
