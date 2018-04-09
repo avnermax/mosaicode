@@ -5,15 +5,13 @@ This module contains the DiagramControl class.
 """
 import os
 import gi
-from copy import deepcopy
-from copy import copy
 gi.require_version('Gdk', '3.0')
 from gi.repository import Gdk
-from mosaicode.utils.XMLUtils import XMLParser
 from mosaicode.system import System as System
 from mosaicode.persistence.diagrampersistence import DiagramPersistence
 
-class DiagramControl():
+
+class DiagramControl:
     """
     This class contains methods related the DiagramControl class.
     """
@@ -85,6 +83,8 @@ class DiagramControl():
         DiagramPersistence.load(self.diagram)
         self.diagram.redo_stack = []
         self.diagram.undo_stack = []
+
+        return True
 
     # ----------------------------------------------------------------------
     def save(self, file_name=None):
